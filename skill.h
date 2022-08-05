@@ -19,19 +19,17 @@ public:
 	}
 
 	int player_id_;
+	//<类型，数值> player根据不同类型解包
+	//0:聚气，1:防御，2:攻击
 	std::tuple<int, int>returnStatus;
 	virtual std::tuple<int, int> damage() {
 		return std::make_tuple(-1, -1);
 	};
 	virtual std::tuple<int, int> defend() {
 		return std::make_tuple(-1, -1);
-
-
 	};
 	virtual std::tuple<int, int> Qi() {
 		return std::make_tuple(-1, -1);
-
-
 	};
 };
 
@@ -44,7 +42,7 @@ public:
 	}
 	std::tuple<int, int> damage() override
 	{
-		returnStatus = std::make_tuple(0, 1);
+		returnStatus = std::make_tuple(2, 1);
 		//player_->setattack(1);
 		std::cout << "Player " << player_id_ << "put skill:" << "CA" << std::endl;
 		return returnStatus;
@@ -57,12 +55,13 @@ public:
 	{
 
 	}
-	void chooseSkill(Skills skills) {
+	std::tuple<int, int> chooseSkill(Skills skills) {
 		SkillBase* skill;
 		switch (skills)
 		{
-		case Skills::CA:skill = new CA(player_id_);
-			skill->damage();
+		case Skills::CA:
+			skill = new CA(player_id_);
+			return skill->damage();
 			break;
 		case Skills::HONG: break;
 		case Skills::DONG: break;
